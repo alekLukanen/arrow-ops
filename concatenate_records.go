@@ -9,6 +9,11 @@ import (
 	"github.com/apache/arrow/go/v17/arrow/memory"
 )
 
+/*
+* Concatenate the records together. The records must all have the same schema. The resulting
+* record will have all data from each record in the order they were supplied and will be
+* a new record with all data copied.
+*/
 func ConcatenateRecords(mem *memory.GoAllocator, records ...arrow.Record) (arrow.Record, error) {
 	for _, record := range records {
 		record.Retain()
