@@ -10,7 +10,7 @@ import (
 )
 
 /*
-* Takes record and deduplicates the rows based on the subset of columns provided.
+* Takes a record and deduplicates the rows based on the subset of columns provided.
 * The rows are not garanteed to be in any particular order. All columns from the
 * input record will be returned in the result record.
 */

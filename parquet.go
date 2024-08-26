@@ -17,6 +17,9 @@ type ParquetFile struct {
 	NumRows  int64
 }
 
+/*
+* Write a record to a parquet file.
+*/
 func WriteRecordToParquetFile(ctx context.Context, mem *memory.GoAllocator, record arrow.Record, filePath string) error {
 
 	file, err := os.Create(filePath)
@@ -47,6 +50,10 @@ func WriteRecordToParquetFile(ctx context.Context, mem *memory.GoAllocator, reco
 	return parquetFileWriter.Close()
 }
 
+
+/*
+* Read a parquet file and return the records for all row groups in the file.
+*/
 func ReadParquetFile(ctx context.Context, mem *memory.GoAllocator, filePath string) ([]arrow.Record, error) {
 
 	parquetFileReader, err := parquetFileUtils.OpenParquetFile(filePath, false)

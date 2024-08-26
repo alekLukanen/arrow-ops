@@ -19,6 +19,9 @@ type sortItem[E comparable] struct {
 	Value E
 }
 
+/*
+* Sort the record based on the provided columns. The returned record will be sorted in ascending order.
+*/
 func SortRecord(mem *memory.GoAllocator, record arrow.Record, columns []string) (arrow.Record, error) {
 
 	var scratchRecord arrow.Record

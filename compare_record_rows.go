@@ -16,7 +16,7 @@ import (
 * than all rows will be compared else only the columns in the
 * list will be compared. It's assumed that each record only has
 * one column with the same name or that each column with the same name
-* has the same values.
+* has the same values. Less than is -1, equal to is 0 and greater than is 1.
  */
 func CompareRecordRows(record1, record2 arrow.Record, index1, index2 int, fields ...string) (int, error) {
 
