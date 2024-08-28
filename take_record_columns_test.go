@@ -24,19 +24,19 @@ func TestTakeRecordColumns(t *testing.T) {
     {
       caseName: "allColumns",
       recordBldr: func() arrow.Record {
-        return mockData(mem, 10, "ascending")
+        return MockData(mem, 10, "ascending")
       },
       columns: []string{"a", "b", "c"},
       expectedRecordBldr: func() arrow.Record {
-        return mockData(mem, 10, "ascending")
+        return MockData(mem, 10, "ascending")
       },
       expectedErr: nil,
     },
     {
       caseName: "singleColumn",
       recordBldr: func() arrow.Record {
-        return mockData(mem, 10, "ascending")
-              },
+        return MockData(mem, 10, "ascending")
+      },
       columns: []string{"a"},
       expectedRecordBldr: func() arrow.Record {
         recordBldr := array.NewRecordBuilder(mem, arrow.NewSchema([]arrow.Field{{Name: "a", Type: arrow.PrimitiveTypes.Int64}}, nil))
@@ -50,8 +50,8 @@ func TestTakeRecordColumns(t *testing.T) {
     {
       caseName: "emptyColumnSlice",
       recordBldr: func() arrow.Record {
-        return mockData(mem, 10, "ascending")
-              },
+        return MockData(mem, 10, "ascending")
+      },
       columns: []string{},
       expectedRecordBldr: func() arrow.Record {
         return nil
@@ -61,8 +61,8 @@ func TestTakeRecordColumns(t *testing.T) {
     {
       caseName: "columnNotInRecord",
       recordBldr: func() arrow.Record {
-        return mockData(mem, 10, "ascending")
-              },
+        return MockData(mem, 10, "ascending")
+      },
       columns: []string{"zap"},
       expectedRecordBldr: func() arrow.Record {
         return nil

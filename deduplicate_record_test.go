@@ -17,7 +17,7 @@ func BenchmarkDeduplicateRecordUsingSingleColumnRandomData(b *testing.B) {
 				b.StopTimer()
 				mem := memory.NewGoAllocator()
 				// create large records to compare
-				r1 := mockData(mem, size, "random")
+				r1 := MockData(mem, size, "random")
 				defer r1.Release()
 				b.StartTimer()
 				if val, ifErr := DeduplicateRecord(mem, r1, []string{"a"}, false); ifErr != nil {
@@ -52,12 +52,12 @@ func TestDeduplicateRecord(t *testing.T) {
     {
       caseName: "no_duplicates",
       recordBldr: func() arrow.Record {
-        return mockData(mem, 10, "ascending")
+        return MockData(mem, 10, "ascending")
       },
       columns: []string{"a", "b", "c"},
       presortedByColumnsNames: false,
       expectedRecordBldr: func() arrow.Record {
-        return mockData(mem, 10, "ascending")
+        return MockData(mem, 10, "ascending")
       },
       expectedErr: nil,
     },

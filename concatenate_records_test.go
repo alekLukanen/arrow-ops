@@ -22,7 +22,7 @@ func BenchmarkConcatenateRecords(b *testing.B) {
 					b.StopTimer()
 					records := make([]arrow.Record, recVal)
 					for recIdx := range recVal {
-						records[recIdx] = mockData(mem, sizeVal, "ascending")
+						records[recIdx] = MockData(mem, sizeVal, "ascending")
 					}
 					b.StartTimer()
 					result, err := ConcatenateRecords(mem, records...)
@@ -49,8 +49,8 @@ func TestConcatenateRecords(t *testing.T) {
 		expectedErr    error
 	}{
 		{
-			records:        []arrow.Record{mockData(mem, 10, "ascending")},
-			expectedRecord: mockData(mem, 10, "ascending"),
+			records:        []arrow.Record{MockData(mem, 10, "ascending")},
+			expectedRecord: MockData(mem, 10, "ascending"),
 			expectedErr:    nil,
 		},
 		{
