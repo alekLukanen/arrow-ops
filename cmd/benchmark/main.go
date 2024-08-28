@@ -24,8 +24,8 @@ func main() {
 		fmt.Println("Running new benchmark")
 
 		// run the benchmark os command
-		createdTime := time.Now().UTC().Format(time.RFC3339)
-		outputFile := fmt.Sprintf("benchmarkResults/benchmark_%s.txt", createdTime)
+    createdTime := strings.Replace(time.Now().UTC().Format(time.RFC3339), ":", "_", 2)
+		outputFile := fmt.Sprintf("benchmarkResults/benchmark__%s.txt", createdTime)
 		goTestBenchCommand := exec.Command("sh", "-c", fmt.Sprintf("go test -v -bench=. -cpu=1 -benchtime=1x -count=10 -benchmem ./... > %s 2>&1", outputFile))
 
 		output, err := goTestBenchCommand.CombinedOutput()
@@ -48,12 +48,12 @@ func main() {
 	for _, file := range files {
 		// parse the file name and get the time
 		// append to times
-		fileNameComponents := strings.Split(strings.Replace(file.Name(), ".txt", "", 1), "_")
+		fileNameComponents := strings.Split(strings.Replace(file.Name(), ".txt", "", 1), "__")
 		if len(fileNameComponents) != 2 {
 			fmt.Println("Ignoring file name: ", file.Name())
 			continue
 		}
-		fileTime, err := time.Parse(time.RFC3339, fileNameComponents[1])
+		fileTime, err := time.Parse(time.RFC3339, strings.Replace(fileNameComponents[1], "_", ":", 2))
 		if err != nil {
 			fmt.Println("Error parsing file time: ", err)
 			return
@@ -71,9 +71,9 @@ func main() {
 		fmt.Println("No benchmark files found")
 		return
 	}
-	newestFileName = fmt.Sprintf("benchmarkResults/benchmark_%s.txt", times[len(times)-1].Format(time.RFC3339))
+  newestFileName = fmt.Sprintf("benchmarkResults/benchmark__%s.txt", strings.Replace(times[len(times)-1].Format(time.RFC3339), ":", "_", 2))
 	if len(times) > 1 {
-		secondNewestFileName = fmt.Sprintf("benchmarkResults/benchmark_%s.txt", times[len(times)-2].Format(time.RFC3339))
+    secondNewestFileName = fmt.Sprintf("benchmarkResults/benchmark__%s.txt", strings.Replace(times[len(times)-2].Format(time.RFC3339), ":", "_", 2))
 	}
 
 	fmt.Println("Newest file: ", newestFileName)
