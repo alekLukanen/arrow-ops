@@ -8,7 +8,7 @@ import (
 )
 
 /*
-* Compares the two records using just the field/column names provided.
+Compares the two records using just the field/column names provided.
 */
 func RecordsEqual(rec1, rec2 arrow.Record, fields ...string) bool {
 	for i := 0; i < int(rec1.NumCols()); i++ {

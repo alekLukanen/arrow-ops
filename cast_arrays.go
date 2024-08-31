@@ -6,8 +6,8 @@ import (
 )
 
 /*
-* Take in a slice of arrays and return the arrays in a new slice
-* where each array is in it's base data type.
+Take in a slice of arrays and return the arrays in a new slice
+where each array is in it's base data type.
 */
 func CastArraysToBaseDataType[T arrow.Array](arrays ...arrow.Array) ([]T, error) {
 	TArrays := make([]T, len(arrays))

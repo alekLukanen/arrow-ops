@@ -10,9 +10,9 @@ import (
 )
 
 /*
-* Take all rows from the input record based on the input indices record. The indices record should contain two UINT32 columns.
-* The first column should contain the index of the record in the "records" slice and the second column should contain
-* the index of the row in that record. The record returned contains data copied from the original record.
+Take all rows from the input record based on the input indices record. The indices record should contain two UINT32 columns.
+The first column should contain the index of the record in the "records" slice and the second column should contain
+the index of the row in that record. The record returned contains data copied from the original record.
 */
 func TakeMultipleRecords(mem *memory.GoAllocator, records []arrow.Record, indices arrow.Record) (arrow.Record, error) {
 	for _, record := range records {

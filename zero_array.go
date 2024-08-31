@@ -6,7 +6,7 @@ import (
 )
 
 /*
-* Creates a new arrow.Uint32 array with all elements set to zero.
+Creates a new arrow.Uint32 array with all elements set to zero.
 */
 func ZeroUint32Array(mem *memory.GoAllocator, length int) *array.Uint32 {
 	b := array.NewUint32Builder(mem)

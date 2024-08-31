@@ -5,7 +5,7 @@ import (
 )
 
 /*
-* Checks if the two records schemas are equal using only the field/column names provided.
+Checks if the two records schemas are equal using only the field/column names provided.
 */
 func RecordSchemasEqual(record1 arrow.Record, record2 arrow.Record, fields ...string) bool {
 
@@ -21,7 +21,7 @@ func RecordSchemasEqual(record1 arrow.Record, record2 arrow.Record, fields ...st
 }
 
 /*
-* Checks if the two record schemas are equal using only the field/column names provided.
+Checks if the two record schemas are equal using only the field/column names provided.
 */
 func SchemaSubSetEqual(schema1 *arrow.Schema, schema2 *arrow.Schema, fields ...string) bool {
 

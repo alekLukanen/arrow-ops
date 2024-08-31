@@ -10,8 +10,8 @@ import (
 )
 
 /*
-* Take all columns from the record with the given names. The columns are not copied, but referenced
-* from the original record.
+Take all columns from the record with the given names. The columns are not copied, but referenced
+from the original record.
 */
 func TakeRecordColumns(rec arrow.Record, columnNames []string) (arrow.Record, error) {
     var selectedCols []arrow.Array

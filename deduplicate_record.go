@@ -10,9 +10,9 @@ import (
 )
 
 /*
-* Takes a record and deduplicates the rows based on the subset of columns provided.
-* The rows are not garanteed to be in any particular order. All columns from the
-* input record will be returned in the result record.
+Takes a record and deduplicates the rows based on the subset of columns provided.
+The rows are not garanteed to be in any particular order. All columns from the
+input record will be returned in the result record.
 */
 func DeduplicateRecord(mem *memory.GoAllocator, record arrow.Record, columns []string, presortedByColumnsNames bool) (arrow.Record, error) {
   record.Retain()
