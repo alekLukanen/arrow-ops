@@ -32,7 +32,8 @@ func TakeRecordColumns(rec arrow.Record, columnNames []string) (arrow.Record, er
         }
     }
 
-    newSchema := arrow.NewSchema(selectedFields, nil)
+    metadata := rec.Schema().Metadata()
+    newSchema := arrow.NewSchema(selectedFields, &metadata)
     newRecord := array.NewRecord(newSchema, selectedCols, rec.NumRows())
 
     return newRecord, nil
