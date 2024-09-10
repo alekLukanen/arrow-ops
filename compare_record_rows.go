@@ -17,7 +17,7 @@ than all rows will be compared else only the columns in the
 list will be compared. It's assumed that each record only has
 one column with the same name or that each column with the same name
 has the same values. Less than is -1, equal to is 0 and greater than is 1.
- */
+*/
 func CompareRecordRows(record1, record2 arrow.Record, index1, index2 int, fields ...string) (int, error) {
 
 	if record1.NumRows() <= int64(index1) {
@@ -62,7 +62,7 @@ func compareRecordRowsUsingSubset(record1, record2 arrow.Record, index1, index2 
 Determines if the row at index1 in record1 is less/equal/greater than
 the row at index2 in record2. All columns are used in the comparison
 and the order of comparison is based on the column order in the first record.
- */
+*/
 func compareRecordRowsUsingAllFields(record1, record2 arrow.Record, index1, index2 int) (int, error) {
 	if !RecordSchemasEqual(record1, record2) {
 		return 0, errs.NewStackError(fmt.Errorf("%w| records have different number of columns", ErrSchemasNotEqual))

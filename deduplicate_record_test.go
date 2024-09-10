@@ -24,10 +24,10 @@ func BenchmarkDeduplicateRecordUsingSingleColumnRandomData(b *testing.B) {
 					b.Fatalf("received error while sorting record '%s'", ifErr)
 				} else if val == nil || val.NumRows() > int64(size) {
 					b.Fatalf(
-            "expected sorted record to have less than %d rows but had %d rows instead", 
-            size, 
-            val.NumRows(),
-          )
+						"expected sorted record to have less than %d rows but had %d rows instead",
+						size,
+						val.NumRows(),
+					)
 				} else {
 					val.Release()
 					r1.Release()
@@ -39,31 +39,31 @@ func BenchmarkDeduplicateRecordUsingSingleColumnRandomData(b *testing.B) {
 
 func TestDeduplicateRecord(t *testing.T) {
 
-  mem := memory.NewGoAllocator()
+	mem := memory.NewGoAllocator()
 
-  testCases := []struct{
-    caseName string
-    recordBldr func() arrow.Record
-    columns []string
-    presortedByColumnsNames bool
-    expectedRecordBldr func() arrow.Record
-    expectedErr error
-  }{
-    {
-      caseName: "no_duplicates",
-      recordBldr: func() arrow.Record {
-        return MockData(mem, 10, "ascending")
-      },
-      columns: []string{"a", "b", "c"},
-      presortedByColumnsNames: false,
-      expectedRecordBldr: func() arrow.Record {
-        return MockData(mem, 10, "ascending")
-      },
-      expectedErr: nil,
-    },
-    {
-      caseName: "all_duplicates",
-      recordBldr: func() arrow.Record {
+	testCases := []struct {
+		caseName                string
+		recordBldr              func() arrow.Record
+		columns                 []string
+		presortedByColumnsNames bool
+		expectedRecordBldr      func() arrow.Record
+		expectedErr             error
+	}{
+		{
+			caseName: "no_duplicates",
+			recordBldr: func() arrow.Record {
+				return MockData(mem, 10, "ascending")
+			},
+			columns:                 []string{"a", "b", "c"},
+			presortedByColumnsNames: false,
+			expectedRecordBldr: func() arrow.Record {
+				return MockData(mem, 10, "ascending")
+			},
+			expectedErr: nil,
+		},
+		{
+			caseName: "all_duplicates",
+			recordBldr: func() arrow.Record {
 				recBuilder := array.NewRecordBuilder(
 					mem, arrow.NewSchema(
 						[]arrow.Field{
@@ -79,9 +79,9 @@ func TestDeduplicateRecord(t *testing.T) {
 				recBuilder.Field(2).(*array.Float64Builder).AppendValues([]float64{3.3, 3.3, 3.3}, nil)
 				return recBuilder.NewRecord()
 			},
-      columns: []string{"a", "b", "c"},
-      presortedByColumnsNames: false,
-      expectedRecordBldr:  func() arrow.Record {
+			columns:                 []string{"a", "b", "c"},
+			presortedByColumnsNames: false,
+			expectedRecordBldr: func() arrow.Record {
 				recBuilder := array.NewRecordBuilder(
 					mem, arrow.NewSchema(
 						[]arrow.Field{
@@ -92,40 +92,40 @@ func TestDeduplicateRecord(t *testing.T) {
 				)
 				defer recBuilder.Release()
 
-				recBuilder.Field(0).(*array.Int64Builder).AppendValues([]int64{3,}, nil)
-				recBuilder.Field(1).(*array.StringBuilder).AppendValues([]string{"c",}, nil)
-				recBuilder.Field(2).(*array.Float64Builder).AppendValues([]float64{3.3,}, nil)
+				recBuilder.Field(0).(*array.Int64Builder).AppendValues([]int64{3}, nil)
+				recBuilder.Field(1).(*array.StringBuilder).AppendValues([]string{"c"}, nil)
+				recBuilder.Field(2).(*array.Float64Builder).AppendValues([]float64{3.3}, nil)
 				return recBuilder.NewRecord()
 			},
-      expectedErr: nil,
-    },
-  }
+			expectedErr: nil,
+		},
+	}
 
-  for idx, tc := range testCases {
-    t.Run(fmt.Sprintf("case_%d:%s", idx, tc.caseName), func(t *testing.T) {
-      
-      record := tc.recordBldr()
-      defer record.Release()
-      
-      expectedRecord := tc.expectedRecordBldr()
-      defer expectedRecord.Release()
-      
-      actualRecord, err := DeduplicateRecord(mem, record, tc.columns, tc.presortedByColumnsNames)
-      if !errors.Is(err, tc.expectedErr) {
-        t.Errorf("expected error: %v, got: %v", tc.expectedErr, err)
-        return
-      }
-      
-      if err != nil {
-        defer actualRecord.Release()
-      }
-      
-      if !array.RecordEqual(expectedRecord, actualRecord) {
-        t.Errorf("expected record: %v, got: %v", expectedRecord, actualRecord)
-        return
-      }
+	for idx, tc := range testCases {
+		t.Run(fmt.Sprintf("case_%d:%s", idx, tc.caseName), func(t *testing.T) {
 
-    })
-  }
+			record := tc.recordBldr()
+			defer record.Release()
+
+			expectedRecord := tc.expectedRecordBldr()
+			defer expectedRecord.Release()
+
+			actualRecord, err := DeduplicateRecord(mem, record, tc.columns, tc.presortedByColumnsNames)
+			if !errors.Is(err, tc.expectedErr) {
+				t.Errorf("expected error: %v, got: %v", tc.expectedErr, err)
+				return
+			}
+
+			if err != nil {
+				defer actualRecord.Release()
+			}
+
+			if !array.RecordEqual(expectedRecord, actualRecord) {
+				t.Errorf("expected record: %v, got: %v", expectedRecord, actualRecord)
+				return
+			}
+
+		})
+	}
 
 }

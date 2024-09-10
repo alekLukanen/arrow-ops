@@ -50,7 +50,6 @@ func WriteRecordToParquetFile(ctx context.Context, mem *memory.GoAllocator, reco
 	return parquetFileWriter.Close()
 }
 
-
 /*
 Read a parquet file and return the records for all row groups in the file.
 */

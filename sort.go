@@ -21,7 +21,7 @@ type sortItem[E comparable] struct {
 
 /*
 * Sort the record based on the provided columns. The returned record will be sorted in ascending order.
-*/
+ */
 func SortRecord(mem *memory.GoAllocator, record arrow.Record, columns []string) (arrow.Record, error) {
 
 	var scratchRecord arrow.Record
@@ -114,14 +114,14 @@ func RankedSort(mem *memory.GoAllocator, previousArray, currentArray arrow.Array
 	case arrow.STRING:
 		sortItems[string, *array.String](indicesBuilder, ranks, currentArray.(*array.String))
 	case arrow.BINARY:
-    return nil, ErrUnsupportedDataType
+		return nil, ErrUnsupportedDataType
 	case arrow.BOOL:
 		return nil, ErrUnsupportedDataType
 	case arrow.DATE32:
 		sortItems[arrow.Date32, *array.Date32](indicesBuilder, ranks, currentArray.(*array.Date32))
 	case arrow.DATE64:
 		sortItems[arrow.Date64, *array.Date64](indicesBuilder, ranks, currentArray.(*array.Date64))
-  case arrow.TIMESTAMP:
+	case arrow.TIMESTAMP:
 		sortItems[arrow.Timestamp, *array.Timestamp](indicesBuilder, ranks, currentArray.(*array.Timestamp))
 	case arrow.TIME32:
 		sortItems[arrow.Time32, *array.Time32](indicesBuilder, ranks, currentArray.(*array.Time32))

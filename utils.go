@@ -1,13 +1,13 @@
 package arrowops
 
 import (
-  "time"
-  "strconv"
-  "math/rand"
+	"math/rand"
+	"strconv"
+	"time"
 
-  "github.com/apache/arrow/go/v17/arrow"
-  "github.com/apache/arrow/go/v17/arrow/array"
-  "github.com/apache/arrow/go/v17/arrow/memory"
+	"github.com/apache/arrow/go/v17/arrow"
+	"github.com/apache/arrow/go/v17/arrow/array"
+	"github.com/apache/arrow/go/v17/arrow/memory"
 )
 
 func MockData(mem *memory.GoAllocator, size int, method string) arrow.Record {
@@ -85,4 +85,3 @@ func MockData(mem *memory.GoAllocator, size int, method string) arrow.Record {
 
 	return rb1.NewRecord()
 }
-

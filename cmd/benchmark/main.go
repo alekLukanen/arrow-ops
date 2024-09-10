@@ -24,7 +24,7 @@ func main() {
 		fmt.Println("Running new benchmark")
 
 		// run the benchmark os command
-    createdTime := strings.Replace(time.Now().UTC().Format(time.RFC3339), ":", "_", 2)
+		createdTime := strings.Replace(time.Now().UTC().Format(time.RFC3339), ":", "_", 2)
 		outputFile := fmt.Sprintf("benchmarkResults/benchmark__%s.txt", createdTime)
 		goTestBenchCommand := exec.Command("sh", "-c", fmt.Sprintf("go test -v -bench=. -cpu=1 -benchtime=1x -count=10 -benchmem ./... > %s 2>&1", outputFile))
 
@@ -71,9 +71,9 @@ func main() {
 		fmt.Println("No benchmark files found")
 		return
 	}
-  newestFileName = fmt.Sprintf("benchmarkResults/benchmark__%s.txt", strings.Replace(times[len(times)-1].Format(time.RFC3339), ":", "_", 2))
+	newestFileName = fmt.Sprintf("benchmarkResults/benchmark__%s.txt", strings.Replace(times[len(times)-1].Format(time.RFC3339), ":", "_", 2))
 	if len(times) > 1 {
-    secondNewestFileName = fmt.Sprintf("benchmarkResults/benchmark__%s.txt", strings.Replace(times[len(times)-2].Format(time.RFC3339), ":", "_", 2))
+		secondNewestFileName = fmt.Sprintf("benchmarkResults/benchmark__%s.txt", strings.Replace(times[len(times)-2].Format(time.RFC3339), ":", "_", 2))
 	}
 
 	fmt.Println("Newest file: ", newestFileName)

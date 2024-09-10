@@ -15,12 +15,14 @@ func TestTakeMultipleRecords(t *testing.T) {
 	mem := memory.NewGoAllocator()
 
 	testCases := []struct {
+		caseName       string
 		records        []arrow.Record
 		takeIndices    arrow.Record
 		expectedRecord arrow.Record
 		expectedErr    error
 	}{
-    {
+		{
+			caseName: "case_0",
 			records: func() []arrow.Record {
 				rb1 := array.NewRecordBuilder(mem, arrow.NewSchema(
 					[]arrow.Field{
@@ -70,8 +72,8 @@ func TestTakeMultipleRecords(t *testing.T) {
 			}(),
 			expectedErr: nil,
 		},
-
 		{
+			caseName: "case_1",
 			records: func() []arrow.Record {
 				rb1 := array.NewRecordBuilder(mem, arrow.NewSchema(
 					[]arrow.Field{
@@ -102,8 +104,8 @@ func TestTakeMultipleRecords(t *testing.T) {
 						{Name: "recordIdx", Type: arrow.PrimitiveTypes.Uint32},
 					}, nil))
 				defer rb1.Release()
-				rb1.Field(0).(*array.Uint32Builder).AppendValues([]uint32{0, 1, 1}, nil)
-				rb1.Field(1).(*array.Uint32Builder).AppendValues([]uint32{0, 0, 2}, nil)
+				rb1.Field(0).(*array.Uint32Builder).AppendValues([]uint32{0, 1, 0}, nil)
+				rb1.Field(1).(*array.Uint32Builder).AppendValues([]uint32{2, 0, 1}, nil)
 				return rb1.NewRecord()
 			}(),
 			expectedRecord: func() arrow.Record {
@@ -114,14 +116,15 @@ func TestTakeMultipleRecords(t *testing.T) {
 						{Name: "c", Type: arrow.BinaryTypes.String},
 					}, nil))
 				defer rb1.Release()
-				rb1.Field(0).(*array.Uint32Builder).AppendValues([]uint32{0, 3, 5}, nil)
-				rb1.Field(1).(*array.Float32Builder).AppendValues([]float32{0., 3., 5.}, nil)
-				rb1.Field(2).(*array.StringBuilder).AppendValues([]string{"s0", "s3", "s5"}, nil)
+				rb1.Field(0).(*array.Uint32Builder).AppendValues([]uint32{2, 3, 1}, nil)
+				rb1.Field(1).(*array.Float32Builder).AppendValues([]float32{2., 3., 1.}, nil)
+				rb1.Field(2).(*array.StringBuilder).AppendValues([]string{"s2", "s3", "s1"}, nil)
 				return rb1.NewRecord()
 			}(),
 			expectedErr: nil,
 		},
 		{
+			caseName: "case_2",
 			records: func() []arrow.Record {
 				rb1 := array.NewRecordBuilder(mem, arrow.NewSchema(
 					[]arrow.Field{
@@ -160,6 +163,7 @@ func TestTakeMultipleRecords(t *testing.T) {
 			expectedErr:    ErrIndexOutOfBounds,
 		},
 		{
+			caseName: "case_3",
 			records: func() []arrow.Record {
 				rb1 := array.NewRecordBuilder(mem, arrow.NewSchema(
 					[]arrow.Field{
@@ -198,6 +202,7 @@ func TestTakeMultipleRecords(t *testing.T) {
 			expectedErr:    ErrIndexOutOfBounds,
 		},
 		{
+			caseName: "case_4",
 			records: func() []arrow.Record {
 				rb1 := array.NewRecordBuilder(mem, arrow.NewSchema(
 					[]arrow.Field{
@@ -233,6 +238,7 @@ func TestTakeMultipleRecords(t *testing.T) {
 			expectedErr: nil,
 		},
 		{
+			caseName: "case_5",
 			records: func() []arrow.Record {
 				rb1 := array.NewRecordBuilder(mem, arrow.NewSchema(
 					[]arrow.Field{
@@ -280,11 +286,11 @@ func TestTakeMultipleRecords(t *testing.T) {
 			}
 			if (testCase.expectedRecord == nil && result != nil) ||
 				(result != nil && !array.RecordEqual(testCase.expectedRecord, result)) {
-				
-          t.Log("expected record: ", testCase.expectedRecord)
-          t.Log("result record: ",result)
 
-				  t.Error("result record does not match the expected record")
+				t.Log("expected record: ", testCase.expectedRecord)
+				t.Log("result record: ", result)
+
+				t.Error("result record does not match the expected record")
 			}
 
 		})
